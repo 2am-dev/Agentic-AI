@@ -1,0 +1,32 @@
+services:
+  backend:
+    build:
+      context: ./backend
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+      - ./workspaces:/workspaces
+      - /var/run/docker.sock:/var/run/docker.sock
+    env_file:
+      - .env
+    environment:
+      - WORKSPACE_BASE_PATH=/workspaces
+    depends_on:
+      - sandbox-image
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+
+  sandbox-image:
+    build:
+      context: ./sandbox
+    image: coder-sandbox:latest
+    command: ["echo", "Sandbox image built"]

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autonomous Code Generator</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+<body>
+<div class="app">
+
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <span class="logo-icon">⚡</span>
+            <span class="logo-text">Autonomous Code Generator</span>
+        </div>
+        <div class="header-controls">
+            <select id="modelSelect" class="select"></select>
+            <div id="statusIndicator" class="status-dot idle" title="Idle"></div>
+        </div>
+    </header>
+
+    <div class="main">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-scroll">
+
+                <div>
+                    <label class="label">Task</label>
+                    <textarea id="taskInput" class="textarea"
+                        placeholder="Describe what you want to build...&#10;&#10;Examples:&#10;• A web scraper for news articles&#10;• A REST API with Flask + SQLite&#10;• A data analysis script with charts&#10;• A CLI todo app"></textarea>
+                </div>
+
+                <div class="settings-row">
+                    <label class="label">Max Iterations</label>
+                    <input type="number" id="maxIterations" class="input-num" value="15" min="3" max="30">
+                </div>
+
+                <div class="btn-group">
+                    <button id="startBtn" class="btn btn-primary" onclick="startTask()">▶ Start</button>
+                    <button id="stopBtn"  class="btn btn-danger"  onclick="stopTask()"  disabled>⏹ Stop</button>
+                    <button class="btn btn-secondary" onclick="clearAll()">🗑 Clear</button>
+                </div>
+
+                <!-- Progress -->
+                <div id="progressSection" class="progress-section hidden">
+                    <div class="progress-header">
+                        <span id="progressLabel">Iteration 0/0</span>
+                        <span id="progressPercent">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div id="progressFill" class="progress-fill" style="width:0%"></div>
+                    </div>
+                </div>
+
+                <!-- Files -->
+                <div id="filesSection" class="files-section hidden">
+                    <label class="label">📁 Files Created</label>
+                    <div id="filesList" class="files-list"></div>
+                    <button class="btn btn-secondary" style="margin-top:8px;font-size:0.78rem"
+                        onclick="downloadAll()">⬇ Download All</button>
+                </div>
+
+                <!-- Quick prompts -->
+                <div>
+                    <label class="label">Quick Prompts</label>
+                    <div class="prompt-chips">
+                        <span class="chip" onclick="setPrompt('Build a Python web scraper that extracts articles from a news site and saves them to a JSON file with title, url, date and summary')">Web Scraper</span>
+                        <span class="chip" onclick="setPrompt('Create a REST API with Flask that has full CRUD operations for a todo list stored in SQLite. Include error handling and test it.')">REST API</span>
+                        <span class="chip" onclick="setPrompt('Write a Python script that generates sample CSV data, then analyzes it with pandas and creates charts using matplotlib saved as PNG files')">Data Analysis</span>
+                        <span class="chip" onclick="setPrompt('Build a command line todo app in Python with add, list, complete and delete commands. Save todos to a JSON file.')">CLI Todo App</span>
+                        <span class="chip" onclick="setPrompt('Create a Python password generator that creates strong passwords and saves them encrypted to a file')">Password Gen</span>
+                        <span class="chip" onclick="setPrompt('Write a Python script that sorts and organizes files in a directory by type and extension')">File Organizer</span>
+                    </div>
+                </div>
+
+            </div>
+        </aside>
+
+        <!-- Main content -->
+        <main class="content">
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('log')">
+                    📋 Agent Log <span id="logBadge" class="tab-badge hidden">0</span>
+                </button>
+                <button class="tab" onclick="switchTab('code')">
+                    💻 Code <span id="codeBadge" class="tab-badge hidden">0</span>
+                </button>
+                <button class="tab" onclick="switchTab('output')">
+                    📤 Output <span id="outputBadge" class="tab-badge hidden">0</span>
+                </button>
+            </div>
+
+            <!-- Log Tab -->
+            <div id="logTab" class="tab-content active">
+                <div id="agentLog" class="agent-log">
+                    <div class="welcome-msg">
+                        <div class="welcome-icon">⚡</div>
+                        <h2>Autonomous Code Generator</h2>
+                        <p>Enter a task and click Start. The agent will:</p>
+                        <ul>
+                            <li>🔍 Search the web for info &amp; docs</li>
+                            <li>✍️ Write code files</li>
+                            <li>🔧 Execute &amp; test in sandbox</li>
+                            <li>🐛 Debug and fix errors automatically</li>
+                            <li>✅ Deliver complete working code</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Code Tab -->
+            <div id="codeTab" class="tab-content">
+                <div id="codeViewer" class="code-viewer">
+                    <p class="placeholder-text">Code files will appear here as the agent writes them...</p>
+                </div>
+            </div>
+
+            <!-- Output Tab -->
+            <div id="outputTab" class="tab-content">
+                <div id="outputViewer" class="output-viewer">
+                    <p class="placeholder-text">Execution output will appear here...</p>
+                </div>
+            </div>
+
+        </main>
+    </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+autonomous-codegen/
+├── docker-compose.yml
+├── sandbox/
+│   └── Dockerfile
+├── backend/
+│   ├── Dockerfile
+│   ├── requirements.txt
+│   ├── main.py
+│   ├── agent.py
+│   ├── sandbox_runner.py
+│   ├── web_tools.py
+│   └── tools.py
+├── frontend/
+│   ├── index.html
+│   ├── style.css
+│   └── app.js
+└── shared/
+    └── workspace/

@@ -1,0 +1,26 @@
+auto-coder/
+├── .env.example
+├── docker-compose.yml
+├── README.md
+├── sandbox/
+│   └── Dockerfile
+├── backend/
+│   ├── requirements.txt
+│   ├── main.py
+│   ├── agent.py
+│   ├── tools.py
+│   ├── sandbox_runner.py
+│   └── db.py
+└── frontend/
+    ├── package.json
+    ├── vite.config.ts
+    ├── index.html
+    └── src/
+        ├── App.tsx
+        ├── main.tsx
+        ├── store.ts
+        └── components/
+            ├── Sidebar.tsx
+            ├── CodeViewer.tsx
+            ├── TerminalLog.tsx
+            └── OutputPanel.tsx
